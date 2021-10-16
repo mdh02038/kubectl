@@ -1,4 +1,5 @@
 FROM alpine:3.12
+ARG TARGETPLATFORM
 
 RUN \
   apk update && \
@@ -8,7 +9,7 @@ RUN \
   rm -rf /var/cache/apk/*
 
 RUN mkdir -p /usr/local/bin
-RUN curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" 
+RUN curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/$(echo $TARGETPLATFORM|cut -d/ -f2)/kubectl" 
 RUN chmod +x ./kubectl 
 RUN mv ./kubectl /usr/local/bin/kubectl
 
